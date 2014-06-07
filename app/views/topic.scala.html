@@ -18,8 +18,8 @@
     <!-- TODO: for each: results -->
     <!-- TODO: chart (which kind?) -->
     @topic.questions.map{
-        case MultipleChoice(question, answers) => {
-            <li>@question ({{type}})
+        case MultipleChoice(id, question, answers) => {
+            <li>@question (multiple choice)
                 <ul>
                     @answers.map { answer =>
                         <li>@answer: {{count}} ({{percentage}}%)</li>
@@ -52,6 +52,8 @@
         <li><input type="text" name="answer-4"></li>
     </ol>
 
+    <!-- TODO: Target: based on geo location -->
+    <!-- TODO: Target: based on articles read by tags  -->
     <!-- TODO: Target: based on previous queries -->
 
     <input type="submit" value="Add" />

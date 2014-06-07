@@ -9,4 +9,6 @@ POST        /editor/topics/:id        controllers.Application.addQuestion(id)
 
 GET         /assets/*file             controllers.Assets.at(path="/public", file)
 
-GET         /api/topics               controllers.Api.topics
+
+GET         /api/topics               controllers.Api.topics(session)
+POST        /api/topics/:topicId/:questionId  controllers.Api.recordAnswer(topicId, questionId)

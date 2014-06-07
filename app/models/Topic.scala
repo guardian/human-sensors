@@ -26,15 +26,18 @@ case class Topic(
 )
 
 sealed trait Question {
+  val id: String
   val question: String
 }
 
 case class MultipleChoice(
+  id: String = java.util.UUID.randomUUID().toString,
   question: String,
   choices: List[String]
 ) extends Question
 
 case class FreeForm(
+  id: String,
   question: String
 ) extends Question
 

@@ -39,4 +39,6 @@ object JsonImplicits {
   }
 
   implicit val topicFormat = Json.format[Topic]
+
+  implicit val answerFormat = Json.format[Answer]
 }

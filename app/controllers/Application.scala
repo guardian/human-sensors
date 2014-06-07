@@ -11,7 +11,7 @@ case class AddQuestionFormData(question: String, `type`: String, answer1: String
 }
 
 object Application extends Controller {
-  @volatile var topics = List(Topic("example", "Example", Set(), List()))
+  @volatile var topics = List(Topic("example", "Example", Set(), List(MultipleChoice("q1", "First question", List()))))
 
   def indexRedirect = Action {
     Redirect("/editor")
@@ -57,7 +57,7 @@ object Application extends Controller {
 
     formData.`type` match {
       case "choices" => {
-        val newQuestion = MultipleChoice(formData.question, formData.answers)
+        val newQuestion = MultipleChoice(question = formData.question, choices = formData.answers)
         topics = topics.map { topic =>
           if (topic.id == id) {
             topic.copy(questions = topic.questions :+ newQuestion)
