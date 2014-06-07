@@ -1,5 +1,5 @@
 
-name := "mit-hack-day"
+name := "human-sensors"
 
 version := "1.0.0-SNAPSHOT"
 
