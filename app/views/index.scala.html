@@ -9,11 +9,11 @@
 
 <ul>
     @topics.map { topic =>
-      <li><a href="/topics/@topic.id">@topic.name</a></li>
+      <li><a href="/editor/topics/@topic.id">@topic.name</a></li>
     }
 </ul>
 
-<form action="/topics" method="post">
+<form action="/editor/topics" method="post">
     <h2>Create new topic</h2>
     <input type="text" name="name" />
     <input type="submit" value="Add" />

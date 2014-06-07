@@ -45,7 +45,7 @@ object Application extends Controller {
 
     topics ::= newTopic
 
-    Redirect(s"/topics/${newTopic.id}")
+    Redirect(s"/editor/topics/${newTopic.id}")
   }
 
   def addQuestion(id: String) = Action { implicit request: Request[AnyContent] =>
@@ -60,7 +60,7 @@ object Application extends Controller {
           } else topic
         }
 
-        Redirect(s"/topics/$id")
+        Redirect(s"/editor/topics/$id")
       }
       case _ => BadRequest
     }

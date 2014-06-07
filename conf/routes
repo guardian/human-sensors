@@ -2,9 +2,9 @@
 
 
 
-GET        /             controllers.Application.index()
-GET        /topics/:id   controllers.Application.topic(id)
-POST       /topics       controllers.Application.createTopic()
-POST       /topics/:id   controllers.Application.addQuestion(id)
+GET        /editor             controllers.Application.index()
+GET        /editor/topics/:id   controllers.Application.topic(id)
+POST       /editor/topics       controllers.Application.createTopic()
+POST       /editor/topics/:id   controllers.Application.addQuestion(id)
 
 GET        /api/topics   controllers.Api.topics
