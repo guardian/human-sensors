@@ -5,7 +5,7 @@ sealed trait TargetingCriterion
 case class GeoFence(longitude: Double, latitude: Double, maximumDistanceInMiles: Double)
 
 case class GeoTargeting(geoFences: Set[GeoFence]) extends TargetingCriterion
-case class ReadingHistory(articleIds: Set[String]) extends TargetingCriterion
+case class ReadingHistory(topicIds: Set[String]) extends TargetingCriterion
 case class TopicParticipation(topics: Set[String]) extends TargetingCriterion
 
 object Topic {
