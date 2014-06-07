@@ -1,11 +1,14 @@
 package controllers
 
 import play.api.mvc._
-import models.Topic
+import models.{Question, MultipleChoice, Topic}
 import play.api.data._
 import play.api.data.Forms._
 
 case class CreateTopicFormData(name: String)
+case class AddQuestionFormData(question: String, `type`: String, answer1: String, answer2: String, answer3: String, answer4: String) {
+  def answers = List(answer1, answer2, answer3, answer4).filterNot(_.isEmpty)
+}
 
 object Application extends Controller {
   @volatile var topics = List(Topic("example", "Example", Set(), List()))
@@ -26,6 +29,15 @@ object Application extends Controller {
     "name" -> text
   )(CreateTopicFormData.apply)(CreateTopicFormData.unapply))
 
+  val addQuestionForm = Form(mapping(
+    "question" -> text,
+    "type" -> text,
+    "answer-1" -> text,
+    "answer-2" -> text,
+    "answer-3" -> text,
+    "answer-4" -> text
+  )(AddQuestionFormData.apply)(AddQuestionFormData.unapply))
+
   def createTopic = Action { implicit request: Request[AnyContent] =>
     val formData = createTopicForm.bindFromRequest.get
 
@@ -34,5 +46,23 @@ object Application extends Controller {
     topics ::= newTopic
 
     Redirect(s"/topics/${newTopic.id}")
+  }
+
+  def addQuestion(id: String) = Action { implicit request: Request[AnyContent] =>
+    val formData = addQuestionForm.bindFromRequest.get
+
+    formData.`type` match {
+      case "choices" => {
+        val newQuestion = MultipleChoice(formData.question, formData.answers)
+        topics = topics.map { topic =>
+          if (topic.id == id) {
+            topic.copy(questions = topic.questions :+ newQuestion)
+          } else topic
+        }
+
+        Redirect(s"/topics/$id")
+      }
+      case _ => BadRequest
+    }
   }
 }

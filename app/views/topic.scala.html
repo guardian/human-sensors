@@ -4,30 +4,34 @@
     <title></title>
     <style>
         .form-row {
-        display: block;
-        margin-bottom: 1em;
+            display: block;
+            margin-bottom: 1em;
         }
     </style>
 </head>
 <body>
 <h1>@topic.name</h1>
 
-<h2>Queries</h2>
+<h2>Questions</h2>
 
 <ul>
     <!-- TODO: for each: results -->
     <!-- TODO: chart (which kind?) -->
-    @topic.questions.map { q =>
-        <li>@q.question ({{type}})
-            <ul>
-                <li>{{answer}}: {{count}} ({{percentage}}%)</li>
-            </ul>
-        </li>
+    @topic.questions.map{
+        case MultipleChoice(question, answers) => {
+            <li>@question ({{type}})
+                <ul>
+                    @answers.map { answer =>
+                        <li>@answer: {{count}} ({{percentage}}%)</li>
+                    }
+                </ul>
+            </li>
+        }
     }
 </ul>
 
 <form action="/topics/@topic.id" method="post">
-    <h2>Add new query</h2>
+    <h2>Add new question</h2>
 
     <label class="form-row">
         Question:
