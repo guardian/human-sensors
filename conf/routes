@@ -1,6 +1,6 @@
 
 
-
+GET         /                         controllers.Application.indexRedirect()
 
 GET         /editor                   controllers.Application.index()
 GET         /editor/topics/:id        controllers.Application.topic(id)

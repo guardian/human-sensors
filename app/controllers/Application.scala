@@ -13,6 +13,10 @@ case class AddQuestionFormData(question: String, `type`: String, answer1: String
 object Application extends Controller {
   @volatile var topics = List(Topic("example", "Example", Set(), List()))
 
+  def indexRedirect = Action {
+    Redirect("/editor")
+  }
+
   def index = Action {
     Ok(views.html.index(topics))
   }
