@@ -8,6 +8,16 @@ case class GeoTargeting(geoFences: Set[GeoFence]) extends TargetingCriterion
 case class ReadingHistory(articleIds: Set[String]) extends TargetingCriterion
 case class TopicParticipation(topics: Set[String]) extends TargetingCriterion
 
+object Topic {
+  def apply(name: String): Topic =
+    Topic(
+      java.util.UUID.randomUUID().toString,
+      name,
+      Set.empty,
+      Nil
+    )
+}
+
 case class Topic(
   id: String,
   name: String,

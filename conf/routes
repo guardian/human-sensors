@@ -5,3 +5,4 @@
 GET        /             controllers.Application.index()
 GET        /topics/:id   controllers.Application.topic(id)
 
+POST       /topics       controllers.Application.createTopic()

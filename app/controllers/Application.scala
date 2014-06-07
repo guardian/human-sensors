@@ -2,9 +2,13 @@ package controllers
 
 import play.api.mvc._
 import models.Topic
+import play.api.data._
+import play.api.data.Forms._
+
+case class CreateTopicFormData(name: String)
 
 object Application extends Controller {
-  var topics = List(Topic("example", "Example", Set(), List()))
+  @volatile var topics = List(Topic("example", "Example", Set(), List()))
 
   def index = Action {
     Ok(views.html.index(topics))
@@ -18,4 +22,17 @@ object Application extends Controller {
     }
   }
 
+  val createTopicForm = Form(mapping(
+    "name" -> text
+  )(CreateTopicFormData.apply)(CreateTopicFormData.unapply))
+
+  def createTopic = Action { implicit request: Request[AnyContent] =>
+    val formData = createTopicForm.bindFromRequest.get
+
+    val newTopic = Topic(formData.name)
+
+    topics ::= newTopic
+
+    Redirect(s"/topics/${newTopic.id}")
+  }
 }
