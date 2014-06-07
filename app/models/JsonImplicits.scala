@@ -17,5 +17,6 @@ object JsonImplicits {
     }
   }
 
-  implicit val topicFormat = Json.format[Topic]
+  // TODO fill this in
+  // implicit val topicFormat = Json.format[Topic]
 }
