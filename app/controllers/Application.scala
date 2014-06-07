@@ -29,7 +29,7 @@ object Application extends Controller {
   def createTopic = Action { implicit request: Request[AnyContent] =>
     val formData = createTopicForm.bindFromRequest.get
 
-    val newTopic = Topic(formData.name)
+    val newTopic = Topic.withName(formData.name)
 
     topics ::= newTopic
 
