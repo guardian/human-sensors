@@ -2,5 +2,6 @@
 
 
 
-GET        /        controllers.Application.index()
+GET        /             controllers.Application.index()
+GET        /topics/:id   controllers.Application.topic(id)
 

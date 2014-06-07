@@ -1,0 +1,22 @@
+@(topics: List[models.Topic])
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+<h1>Topics</h1>
+
+<ul>
+    @topics.map { topic =>
+      <li><a href="/topics/@topic.id">@topic.name</a></li>
+    }
+</ul>
+
+<form action="" method="post">
+    <h2>Create new topic</h2>
+    <input type="text" name="name" />
+    <input type="submit" value="Add" />
+</form>
+</body>
+</html>

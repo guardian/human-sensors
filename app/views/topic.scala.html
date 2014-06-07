@@ -1,0 +1,56 @@
+@(topic: Topic)
+<html>
+<head>
+    <title></title>
+    <style>
+        .form-row {
+        display: block;
+        margin-bottom: 1em;
+        }
+    </style>
+</head>
+<body>
+<h1>@topic.name</h1>
+
+<h2>Queries</h2>
+
+<ul>
+    <!-- TODO: for each: results -->
+    <!-- TODO: chart (which kind?) -->
+    @topic.questions.map { q =>
+        <li>@q.question ({{type}})
+            <ul>
+                <li>{{answer}}: {{count}} ({{percentage}}%)</li>
+            </ul>
+        </li>
+    }
+</ul>
+
+<form action="/topics/@topic.id" method="post">
+    <h2>Add new query</h2>
+
+    <label class="form-row">
+        Question:
+        <input type="text" name="question" />
+    </label>
+
+    <label class="form-row">
+        Type:
+        <select name="type">
+            <option value="choices">Multiple choice</option>
+        </select>
+    </label>
+
+    <ol>
+        <li><input type="text" name="answer-1"></li>
+        <li><input type="text" name="answer-2"></li>
+        <li><input type="text" name="answer-3"></li>
+        <li><input type="text" name="answer-4"></li>
+    </ol>
+
+    <!-- TODO: Target: based on previous queries -->
+
+    <input type="submit" value="Add" />
+</form>
+</body>
+</html>
