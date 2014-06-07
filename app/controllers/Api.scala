@@ -1,7 +1,7 @@
 package controllers
 
 import play.api.mvc._
-import models.{Answer, Question, Topic}
+import models.{Data, Answer, Question, Topic}
 import play.api.libs.json.Json
 import models.JsonImplicits._
 
@@ -13,7 +13,7 @@ object Api extends Controller {
   def topics(session: String) = Action {
     // TODO: find topic for which there is a matching unanswered question
     val next = for {
-      topic <- Application.topics
+      topic <- Data.topics
       question <- topic.questions if answers.filter(a => a.session == session && a.question == question.id).isEmpty
     } yield (topic, question)
 

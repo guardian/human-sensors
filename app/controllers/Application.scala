@@ -1,7 +1,8 @@
 package controllers
 
 import play.api.mvc._
-import models.{Question, MultipleChoice, Topic}
+import models.{Data, MultipleChoice, Topic}
+import Data.topics
 import play.api.data._
 import play.api.data.Forms._
 
@@ -11,8 +12,6 @@ case class AddQuestionFormData(question: String, `type`: String, answer1: String
 }
 
 object Application extends Controller {
-  @volatile var topics = List(Topic("example", "Example", Set(), List(MultipleChoice("q1", "First question", List()))))
-
   def indexRedirect = Action {
     Redirect("/editor")
   }
