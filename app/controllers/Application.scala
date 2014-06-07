@@ -4,8 +4,7 @@ import play.api.mvc._
 import models.Topic
 
 object Application extends Controller {
-
-  var topics = List(Topic("example", "Example", List()))
+  var topics = List(Topic("example", "Example", Set(), List()))
 
   def index = Action {
     Ok(views.html.index(topics))
