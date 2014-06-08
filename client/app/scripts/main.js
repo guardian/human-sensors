@@ -293,20 +293,43 @@ var app = (function(app, ractive, pymChild ){
 		pymChild.sendHeightToParent();
 	};
 	
+        var noServer = window.parent.location.search === '?static';
 	app.getQuestion = function(){
-		
+
 		var id = app.getId();
 		console.log(id)
-		ractive.set('hed', 'Callout header');
-		ractive.set('dek', 'What do you think about this?');
-		ractive.set('showPrompt', true);
-		ractive.set('showResults', false);
+                if (noServer) {
+                    showQuestion({
+                        topic: {
+                            name: 'Callout header'
+                        },
+                        question: {
+                            question: 'What do you think?',
+                            choices: [
+                                'yes',
+                                'no'
+                            ]
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: 'http://localhost:9000/api/topics',
+                        data: {session: id}
+                    }).done(showQuestion);
+                }
 	};
-	
+
+        function showQuestion(resp) {
+            ractive.set('hed', resp.topic.name);
+            ractive.set('dek', resp.question.question);
+            ractive.set('showPrompt', true);
+            ractive.set('showResults', false);
+        }
+
 	app.getId = function(){
 		var uid = localStorage.getItem('uid');
 		if(uid == null){
-			uid = 12345
+			uid = 'sess-' + Math.floor(Math.random() * 1000000);
 			localStorage.setItem('uid', uid);
 		}
 		
