@@ -366,7 +366,6 @@ var app = (function(app, ractive, pymChild ){
             if (resp.topic.trackGeo) {
                 var trackUrl = apiBaseUri + resp.trackUrl;
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    console.log(position)
                     $.ajax({
                         url: trackUrl,
                         method: 'post',
