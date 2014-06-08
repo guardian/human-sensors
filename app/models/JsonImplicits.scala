@@ -29,7 +29,8 @@ object JsonImplicits {
 
   implicit val questionFormat = new Format[Question] {
     override def reads(json: JsValue): JsResult[Question] =
-      freeFormFormat.reads(json).mapTo[Question] orElse
+      // FIXME: broken JSON polymorphism
+      //freeFormFormat.reads(json).mapTo[Question] orElse
         multipleChoiceFormat.reads(json).mapTo[Question]
 
     override def writes(o: Question): JsValue = o match {

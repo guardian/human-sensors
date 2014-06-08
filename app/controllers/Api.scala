@@ -11,7 +11,6 @@ object Api extends Controller {
   var answers = List[Answer]()
 
   def topics(session: String) = Action {
-    // TODO: find topic for which there is a matching unanswered question
     val next = for {
       topic <- Data.topics
       question <- topic.questions if answers.filter(a => a.session == session && a.question == question.id).isEmpty

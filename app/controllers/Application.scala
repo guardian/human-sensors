@@ -68,4 +68,8 @@ object Application extends Controller {
       case _ => BadRequest
     }
   }
+
+  def countAnswers(topicId: String, questionId: String): Int = {
+    Api.answers.filter(answer => answer.topic == topicId && answer.question == questionId).size
+  }
 }

@@ -1,15 +1,7 @@
 @(topic: Topic)
-<html>
-<head>
-    <title></title>
-    <style>
-        .form-row {
-            display: block;
-            margin-bottom: 1em;
-        }
-    </style>
-</head>
-<body>
+
+@main(title = s"${topic.name} - Human sensors") {
+
 <h1>@topic.name</h1>
 
 <h2>Questions</h2>
@@ -22,7 +14,7 @@
             <li>@question (multiple choice)
                 <ul>
                     @answers.map { answer =>
-                        <li>@answer: {{count}} ({{percentage}}%)</li>
+                        <li>@answer: countAnswers(topic.id, question.id) ({{percentage}}%)</li>
                     }
                 </ul>
             </li>
@@ -30,33 +22,44 @@
     }
 </ul>
 
-<form action="/editor/topics/@topic.id" method="post">
-    <h2>Add new question</h2>
 
-    <label class="form-row">
-        Question:
-        <input type="text" name="question" />
-    </label>
+<h2>Add new question</h2>
 
-    <label class="form-row">
-        Type:
-        <select name="type">
-            <option value="choices">Multiple choice</option>
-        </select>
-    </label>
+<form action="/editor/topics/@topic.id" method="post" class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-sm-2">Question:</label>
+        <div class="col-sm-10">
+            <input type="text" name="question" class="form-control" />
+        </div>
+    </div>
 
-    <ol>
-        <li><input type="text" name="answer-1"></li>
-        <li><input type="text" name="answer-2"></li>
-        <li><input type="text" name="answer-3"></li>
-        <li><input type="text" name="answer-4"></li>
-    </ol>
+    <div class="form-group">
+        <label class="control-label col-sm-2">Type:</label>
+        <div class="col-sm-4">
+            <select name="type" class="form-control">
+                <option value="choices">Multiple choice</option>
+                <option value="free">Free form</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2">Choices:</label>
+        <div class="col-sm-10">
+            <ol>
+                <li><input type="text" name="answer-1" class="form-control" style="display: inline"></li>
+                <li><input type="text" name="answer-2" class="form-control" style="display: inline"></li>
+                <li><input type="text" name="answer-3" class="form-control" style="display: inline"></li>
+                <li><input type="text" name="answer-4" class="form-control" style="display: inline"></li>
+            </ol>
+        </div>
+    </div>
 
     <!-- TODO: Target: based on geo location -->
     <!-- TODO: Target: based on articles read by tags  -->
     <!-- TODO: Target: based on previous queries -->
 
-    <input type="submit" value="Add" />
+    <input type="submit" value="Add" class="btn btn-default" />
 </form>
-</body>
-</html>
+
+}

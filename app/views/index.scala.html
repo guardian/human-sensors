@@ -7,9 +7,10 @@
         <li><a href="/editor/topics/@topic.id">@topic.name</a></li>
     }</ul>
 
-    <form action="/editor/topics" method="post">
-        <h2>Create new topic</h2>
-        <input type="text" name="name" />
-        <input type="submit" value="Add" />
+
+    <h2>Create new topic</h2>
+    <form action="/editor/topics" method="post" class="form-inline">
+        <input type="text" name="name" class="form-control" />
+        <input type="submit" value="Add" class="btn btn-default" />
     </form>
 }
