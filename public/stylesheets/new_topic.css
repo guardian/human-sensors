@@ -1,6 +1,14 @@
 
+p#targeting-summary {
+    color: #348b3f;
+}
 
 span.tag-id {
     float: right;
     font-size: 80%;
+}
+
+.tt-input {
+    top: -1.2em;
+    margin-left: 5px;
 }

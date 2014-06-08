@@ -2,10 +2,10 @@
 (function () {
     var TargetingSummary = React.createClass({
        render: function () {
-           var message = "Targeted at all users";
+           var message = "Going to all users";
 
            return (
-                <p>{message}</p>
+                <p id="targeting-summary">{message}</p>
            );
        }
     });
@@ -48,7 +48,7 @@
 
                     of
 
-                    <input type="text" onChange={this.handleTextInput} value={this.state.query} />
+                    <input name="geo" type="text" onChange={this.handleTextInput} value={this.state.query} />
                 </p>
             );
         }
@@ -83,7 +83,9 @@
 
         render: function () {
             return (
-                <input type="text" ref="readingHistoryInput" placeholder="Enter tag" />
+                <p>Users who have read items tagged
+                  <input type="text" name="tag" ref="readingHistoryInput" placeholder="Enter tag" />
+                </p>
             );
         }
     });
@@ -98,7 +100,9 @@
 
     var PreviousParticipation = React.createClass({
         componentDidMount: function () {
-            $(this.refs.participationHistoryInput.getDOMNode()).typeahead({
+            var domNode = $(this.refs.participationHistoryInput.getDOMNode());
+
+            domNode.typeahead({
                 hint: false,
                 highlight: true
             }, {
@@ -106,11 +110,22 @@
                 displayKey: "name",
                 source: topicsBloodHound.ttAdapter()
             });
+
+            var handleSelect = function (event, topic) {
+                this.props.onAddTopic(topic);
+                domNode.val("");
+            };
+
+            $(domNode).on("typeahead:autocompleted", handleSelect);
+            $(domNode).on("typeahead:selected", handleSelect);
         },
 
         render: function () {
             return (
-                <input type="text" ref="participationHistoryInput" placeholder="Enter topic" />
+                <p>
+                    Users who have responded to
+                    <input name="topic" type="text" class="midline" ref="participationHistoryInput" placeholder="Enter topic" />
+                </p>
             );
         }
     });
@@ -119,16 +134,34 @@
         getInitialState: function () {
             return {
                 selectedConstraint: "",
-                constraints: []
+                constraints: {
+                    topics: [],
+                    tags: [],
+                    geoFences: []
+                }
             };
         },
 
         handleChange: function (event) {
-            this.setState(React.addons.update(this.state, {
+            this.updateState({
                 $set: {
                     selectedConstraint: event.target.value
                 }
-            }));
+            });
+        },
+
+        updateState: function (update) {
+            this.setState(React.addons.update(this.state, update));
+        },
+
+        onAddTopic: function (topic) {
+            this.updateState({
+                constraints: {
+                    $push: {
+                        topics: [topic]
+                    }
+                }
+            });
         },
 
         render: function () {
@@ -142,7 +175,7 @@
                     constraintElement = <ReadingHistory />;
                     break;
                 case 3:
-                    constraintElement = <PreviousParticipation />;
+                    constraintElement = <PreviousParticipation onAddTopic={this.onAddTopic.bind(this)} />;
                     break;
                 default:
                     constraintElement = <p></p>;
@@ -150,26 +183,16 @@
 
             return (
                 <div>
-                    <h3>Targeting</h3>
+                    <TargetingSummary constraints={this.state.constraints} />
 
-                    <TargetingSummary />
-
-                    <h4>Add constraint</h4>
-                    <form>
-                        <dl>
-                            <dt>Type</dt>
-                            <dd>
-                                <select value={this.state.selectedConstraint} onChange={this.handleChange}>
+                        <p>Constrain by <select name="constraint_type" value={this.state.selectedConstraint} onChange={this.handleChange}>
                                     <option value=""></option>
                                     <option value="1">Location</option>
                                     <option value="2">Reading history</option>
                                     <option value="3">Previous participation</option>
-                                </select>
-                            </dd>
-                        </dl>
+                            </select></p>
 
                         <div>{constraintElement}</div>
-                    </form>
                 </div>
             );
         }
