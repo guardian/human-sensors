@@ -9,7 +9,6 @@
 <h2>Questions</h2>
 
 <ul>
-    <!-- TODO: for each: results -->
     <!-- TODO: chart (which kind?) -->
     @topic.questions.map{
         case MultipleChoice(id, question, answers) => {
@@ -56,6 +55,29 @@
             </ol>
         </div>
     </div>
+
+    @if(! topic.questions.isEmpty) {
+    <div class="form-group">
+        <label class="control-label col-sm-2">Constraints:</label>
+        <div class="col-sm-10">
+            <ul class="list-unstyled">
+            @topic.questions.map{
+                case MultipleChoice(id, question, answers) => {
+                <li class="form-inline">Has answered
+                    <select class="form-control">
+                        @answers.map { answer =>
+                            <option>@answer</option>
+                        }
+                    </select>
+                    to “@question”
+                </li>
+                }
+                case _ => {}
+            }
+            </ul>
+        </div>
+    </div>
+    }
 
     <!-- TODO: Target: based on geo location -->
     <!-- TODO: Target: based on articles read by tags  -->
