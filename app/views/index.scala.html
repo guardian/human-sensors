@@ -1,14 +1,14 @@
 @(topics: List[Topic])
 
-@main(title = "Human sensors") {
-    <h1>Topics</h1>
+@main(title = "Accio!") {
+    <h1>Accio!</h1>
 
     <ul>@topics.map { topic =>
         <li><a href="/editor/topics/@topic.id">@topic.name</a></li>
     }</ul>
 
 
-    <h2>Create new topic</h2>
+    <h2>Create new callout</h2>
     <form action="/editor/topics" method="post">
         <input type="text" name="name" class="form-control" />
 
