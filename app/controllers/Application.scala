@@ -16,6 +16,10 @@ object Application extends Controller {
     Redirect("/editor")
   }
 
+  def newTopic = Action {
+    Ok(views.html.create_topic())
+  }
+
   def index = Action {
     Ok(views.html.index(topics))
   }
