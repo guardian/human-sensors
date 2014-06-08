@@ -34,14 +34,14 @@
 				   <div class='bar-chart'>
 					   <div class='bar-container'>
 						   {{#results}}
-						   <div class='bar' style='width: {{ Math.round(total / totalResults * 100) }}%;'></div>
+						   <div class='bar' style='width: {{ percent }}%;'></div>
 					       {{/results}}
 						   
 					   </div>
 					   
 					   <div class='bar-results'>
 						   {{#results:i}}
-						   <div class='bar-r'><div class='key key-{{i}}'></div>{{ Math.round(total / totalResults * 100) }}% {{choice}}</div>
+						   <div class='bar-r'><div class='key key-{{i}}'></div>{{ percent }}% {{answer}}</div>
 					       {{/results}}
 					   </div>
 					   
@@ -58,7 +58,8 @@
 					   </div>
 	  			   {{/showPrompt}}
 			   	   {{#showResults}}
-				   		<p>{{readMore}}
+				   		<h4>{{readMoreHeader}}</h4>
+				   		<p>{{readMore}} <a href='#'>Click to here to contribute</a></p>
 				   {{/showResults}}
 				</div>
 		</script>

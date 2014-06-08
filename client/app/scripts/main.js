@@ -273,8 +273,9 @@ var app = (function(app, ractive, pymChild ){
 		
 		ractive.on({
 			submit: function(e,i){
+
 			    var response = ractive.get('choices[' + i +']');
-			    console.log(response);
+			    
                             if (noServer) {
 			      app.showData({
                                   results: [
@@ -305,18 +306,12 @@ var app = (function(app, ractive, pymChild ){
 	app.showData = function(resp) {
 		ractive.set('showPrompt', false);
 		ractive.set('showResults', true);
-		ractive.set('dek', 'Guardian readers thought');
-		ractive.set('readMore', 'Read more on this story');
+		ractive.set('dek', 'Reader responses');
+		ractive.set('readMoreHeader', 'Tell us more')
+		ractive.set('readMore', 'We\'re working on a story about recovering heroin addicts.');
 		
-		var results = [
-			{ choice: 'Yes', total: 2},
-			{ choice: 'No', total: 1}
-		];
-		var total = results.reduce(function(a, b) {
-					    return a.total + b.total;
-					});
-		ractive.set('results', results);
-		ractive.set('totalResults', total);
+		
+		ractive.set('results', resp.results);
 		
 		pymChild.sendHeightToParent();
 	};
