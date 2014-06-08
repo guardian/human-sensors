@@ -112,7 +112,7 @@
             });
 
             var handleSelect = function (event, topic) {
-                this.props.onAddTopic(topic);
+                //this.props.onAddTopic(topic);
                 domNode.val("");
             };
 
@@ -124,7 +124,7 @@
             return (
                 <p>
                     Users who have responded to
-                    <input name="topic" type="text" class="midline" ref="participationHistoryInput" placeholder="Enter topic" />
+                    <input name="topic" type="text" className="midline" ref="participationHistoryInput" placeholder="Enter topic" />
                 </p>
             );
         }
@@ -175,7 +175,7 @@
                     constraintElement = <ReadingHistory />;
                     break;
                 case 3:
-                    constraintElement = <PreviousParticipation onAddTopic={this.onAddTopic.bind(this)} />;
+                    constraintElement = <PreviousParticipation onAddTopic={this.onAddTopic} />;
                     break;
                 default:
                     constraintElement = <p></p>;
