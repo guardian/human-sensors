@@ -175,7 +175,9 @@ a, a:hover, a:visited {
 	.bar-chart {
 		max-width: 400px;
 	}
-   
+	.buttons {
+		margin: 0;
+	}
 }
 
 @media screen and (min-width: 800px) {
@@ -183,9 +185,7 @@ a, a:hover, a:visited {
 		width: 200px;
 		margin-right: 20px;
 	}
-	.buttons {
-		margin: 0;
-	}
+	
 	
 }
 
