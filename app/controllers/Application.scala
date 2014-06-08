@@ -2,11 +2,11 @@ package controllers
 
 import play.api.mvc._
 import models.{Data, MultipleChoice, Topic}
-import Data.topics
+import Data.{topics, answers, locations}
 import play.api.data._
 import play.api.data.Forms._
 
-case class CreateTopicFormData(name: String)
+case class CreateTopicFormData(name: String, trackGeo: Boolean)
 case class AddQuestionFormData(question: String, `type`: String, answer1: String, answer2: String, answer3: String, answer4: String) {
   def answers = List(answer1, answer2, answer3, answer4).filterNot(_.isEmpty)
 }
@@ -26,14 +26,15 @@ object Application extends Controller {
 
   def topic(id: String) = Action {
     topics.find(_.id == id).map { topic =>
-      Ok(views.html.topic(topic))
+      Ok(views.html.topic(topic, locations))
     } getOrElse {
       NotFound
     }
   }
 
   val createTopicForm = Form(mapping(
-    "name" -> text
+    "name" -> text,
+    "trackGeo" -> boolean
   )(CreateTopicFormData.apply)(CreateTopicFormData.unapply))
 
   val addQuestionForm = Form(mapping(
@@ -48,7 +49,7 @@ object Application extends Controller {
   def createTopic = Action { implicit request: Request[AnyContent] =>
     val formData = createTopicForm.bindFromRequest.get
 
-    val newTopic = Topic.withName(formData.name)
+    val newTopic = Topic.withNameAndGeo(formData.name, formData.trackGeo)
 
     topics ::= newTopic
 
@@ -74,12 +75,12 @@ object Application extends Controller {
   }
 
   def countAnswers(topicId: String, questionId: String): Int = {
-    Api.answers.filter(answer => answer.topic == topicId && answer.question == questionId).size
+    answers.filter(_.topic == topicId).filter(_.question == questionId).size
   }
 
   def answerPercentage(topicId: String, questionId: String): Double = {
-    val total = Api.answers.filter(answer => answer.topic == topicId).size
+    val total = answers.filter(_.topic == topicId).size
     if (total == 0) 0
-    else (countAnswers(topicId, questionId).toDouble / total)
+    else countAnswers(topicId, questionId).toDouble / total
   }
 }

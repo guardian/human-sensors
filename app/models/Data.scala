@@ -8,6 +8,8 @@ import scala.io.Source
 
 object Data extends Logging {
   @volatile var topics = List.empty[Topic]
+  @volatile var answers = List[Answer]()
+  @volatile var locations = Map[String, Location]()
 
   private val FileName = "data.json"
 
