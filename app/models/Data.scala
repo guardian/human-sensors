@@ -11,9 +11,9 @@ object Data extends Logging {
   @volatile var answers = List[Answer]()
   @volatile var locations = Map[String, Location]()
 
-  private val topicFileName = "persistence/topics.json"
-  private val answersFileName = "persistence/answers.json"
-  private val locationsFileName = "persistence/locations.json"
+  private val topicFileName = "conf/persistence/topics.json"
+  private val answersFileName = "conf/persistence/answers.json"
+  private val locationsFileName = "conf/persistence/locations.json"
 
   def loadFromFile() {
     try {
