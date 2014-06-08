@@ -42,4 +42,6 @@ object JsonImplicits {
   implicit val topicFormat = Json.format[Topic]
 
   implicit val answerFormat = Json.format[Answer]
+
+  implicit val tagFormat = Json.format[Tag]
 }

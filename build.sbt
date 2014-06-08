@@ -1,3 +1,4 @@
+import play.sbtplugin
 
 name := "human-sensors"
 
