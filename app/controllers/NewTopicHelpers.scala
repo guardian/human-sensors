@@ -15,6 +15,6 @@ object NewTopicHelpers extends Controller {
   }
 
   def lookUpTopic(query: String) = Action {
-    Ok(Json.toJson(Data.topics.find(_.name contains query).map(ShortTopic.fromTopic)))
+    Ok(Json.toJson(Data.topics.filter(_.name.toLowerCase contains query.toLowerCase).map(ShortTopic.fromTopic)))
   }
 }

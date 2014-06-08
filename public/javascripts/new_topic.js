@@ -57,11 +57,7 @@
     var tagsBloodHound = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: "/helpers/tags?query=%QUERY",
-        templates: {
-            empty: "<p>No tags match</p>",
-            suggestion: Handlebars.compile("<p>{{name}} <span>{{id}}</span></p>")
-        }
+        remote: "/helpers/tags?query=%QUERY"
     });
 
     tagsBloodHound.initialize();
@@ -72,9 +68,12 @@
                 hint: false,
                 highlight: true
             }, {
-                name: "tag-id",
+                name: "tags",
                 displayKey: "name",
-                source: tagsBloodHound.ttAdapter()
+                source: tagsBloodHound.ttAdapter(),
+                templates: {
+                    suggestion: Handlebars.compile("<p>{{name}} <span class='tag-id'>{{id}}</span></p>")
+                }
             });
         },
 
@@ -84,15 +83,34 @@
 
         render: function () {
             return (
-                <input type="text" ref="readingHistoryInput" placeholder="Enter topic" />
+                <input type="text" ref="readingHistoryInput" placeholder="Enter tag" />
             );
         }
     });
 
+    var topicsBloodHound = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: "/helpers/topics?query=%QUERY"
+    });
+
+    topicsBloodHound.initialize();
+
     var PreviousParticipation = React.createClass({
+        componentDidMount: function () {
+            $(this.refs.participationHistoryInput.getDOMNode()).typeahead({
+                hint: false,
+                highlight: true
+            }, {
+                name: "topics",
+                displayKey: "name",
+                source: topicsBloodHound.ttAdapter()
+            });
+        },
+
         render: function () {
             return (
-                <p>Users who have previously participated in </p>
+                <input type="text" ref="participationHistoryInput" placeholder="Enter topic" />
             );
         }
     });
