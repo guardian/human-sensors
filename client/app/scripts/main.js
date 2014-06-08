@@ -328,7 +328,8 @@ var app = (function(app, ractive, pymChild ){
                 if (noServer) {
                     showQuestion({
                         topic: {
-                            name: 'Callout header'
+                            name: 'Callout header',
+                            trackGeo: true
                         },
                         question: {
                             question: 'What do you think?',
@@ -337,7 +338,8 @@ var app = (function(app, ractive, pymChild ){
                                 'no'
                             ]
                         },
-                        replyUrl: '/api/topics/test/q'
+                        replyUrl: '/api/topics/test/q',
+                        trackUrl: '/api/locations'
                     });
                 } else {
                     $.ajax({
@@ -354,9 +356,26 @@ var app = (function(app, ractive, pymChild ){
             ractive.set('choices', resp.question.choices);
 			ractive.set('showPrompt', true);
             ractive.set('showResults', false);
+
             topicId = resp.topic.id;
             questionId = resp.question.id;
             replyUrl = apiBaseUri + resp.replyUrl;
+
+            if (resp.topic.trackGeo) {
+                var trackUrl = apiBaseUri + resp.trackUrl;
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    console.log(position)
+                    $.ajax({
+                        url: trackUrl,
+                        method: 'post',
+                        data: JSON.stringify({
+                            latitude:  position.coords.latitude,
+                            longitude: position.coords.longitude
+                        }),
+                        contentType: 'application/json'
+                    });
+                });
+            }
         }
 
 	app.getId = function(){
