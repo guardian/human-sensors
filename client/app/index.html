@@ -1,0 +1,71 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>hack</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="shortcut icon" href="/favicon.ico">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:css(.tmp) styles/main.css -->
+		<link rel="stylesheet" href="styles/fonts.css">
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+    </head>
+    <body>
+
+		<script id='template' type='text/ractive'>
+	        
+				<div class='c-cell c-header'>
+	 		  	  <h3>{{hed}}</h3>
+				</div>
+				
+				<div class='c-cell c-content'>
+					{{#dek}}
+				  	 <p>{{dek}}</p>
+					{{/dek}}
+				   {{#showResults}}
+				   <div class='bar-chart'>
+					   <div class='bar-container'>
+						   <div class='bar-y' style='width: {{results.yes}}%;'></div>
+					   </div>
+					   
+					   <div class='bar-results'>
+						   <div class='bar-r-y'>{{results.yes}}% Yes</div>
+						   <div class='bar-r-n'>{{results.no}}% No</div>
+					   </div>
+					   
+				   </div>
+				   {{/showResults}}
+			   </div>
+			   <div class='c-cell c-content c-more'>
+				   {{#showPrompt}}
+					   <div class='buttons'>
+						   <div class='button' id='yes-btn' on-click='submit:yes'>Yes</div>
+						   <div class='button' id='no-btn' on-click='submit:no'>No</div>
+					   </div>
+	  			   {{/showPrompt}}
+			   	   {{#showResults}}
+				   		<p>{{readMore}}
+				   {{/showResults}}
+				</div>
+		</script>
+		
+		<div id='content' class="callout"></div>
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="../bower_components/ractive/ractive.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+		 
+        <!-- build:js({app,.tmp}) scripts/main.js -->
+        <script src="scripts/main.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

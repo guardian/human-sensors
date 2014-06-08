@@ -1,0 +1,141 @@
+
+/* Space out content a bit */
+body {
+    padding: 0;
+
+}
+
+.callout {
+	background: url(../images/g.png) rgb(90, 176, 244) bottom 10px right 10px no-repeat; 
+	padding: 20px;
+	width: 100%;
+	border-bottom: 20px solid #fff;
+}
+
+h3 {
+	font-family: 'Guardian Egyptian Headline',Georgia,serif;
+	margin: 0;
+	color: #333;
+	line-height: 1.2;
+	font-size: 1.3em;
+	font-weight: 500;
+	-webkit-font-smoothing: antialiased;
+	margin-bottom: 5px;
+}
+
+p {
+	font-family: 'Guardian Egyptian Text',Georgia,serif;
+	margin-bottom: 0;
+}
+
+.buttons {
+	margin: 10px 0;
+}
+
+.button {
+
+	padding: 12px;
+	border-radius: 5px;
+	text-transform: uppercase;
+	font-family: AgateSans,Arial;
+	line-height: 12px;
+	display: inline-block;
+	cursor: pointer;
+	background: #005689;
+	color: #fff;
+	border-color: #005689;
+	font-size: 12px;
+}
+
+.bar-chart {
+	margin: 10px 0;
+}
+
+.bar-container {
+
+	width: 100%;
+	height: 32px;
+	border: 1px solid #f6f6f6;
+	background: #f6f6f6;
+	-webkit-box-sizing: border-box; 
+	-moz-box-sizing: border-box;  
+	box-sizing: border-box;   
+}
+
+.bar-y {
+	height: 30px;
+	height: 100%;
+	background: #005689;
+	-webkit-box-sizing: border-box; 
+	-moz-box-sizing: border-box;  
+	box-sizing: border-box;
+}
+
+.bar-r-y {
+	float: left;
+	width: 50%;
+	font-family: 'Guardian Agate Sans', Arial;
+	font-size: 14px;
+}
+
+.bar-r-n {
+	float: right;
+	width: 50%;
+	text-align: right;
+	font-family: 'Guardian Agate Sans', Arial;
+	font-size: 14px;
+}
+
+.c-more {
+	margin-top: 10px;
+	font-size: 16px;
+}
+
+.c-cell {
+	overflow: auto;
+}
+
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 620px) {
+   
+	.callout {
+		display: table;
+
+	}
+	
+	.c-cell {
+		display: table-cell;
+		padding-right: 20px;
+		vertical-align: top;
+	}
+	
+	.c-header {
+		width: 140px;
+		margin-right: 20px;
+	}
+	
+	.c-more {
+		margin-top: 0;
+		border-left: 1px solid #333;
+		padding-left: 20px;
+		max-width: 200px;
+	}
+   
+	.bar-chart {
+		max-width: 400px;
+	}
+   
+}
+
+@media screen and (min-width: 800px) {
+	.c-header {
+		width: 200px;
+		margin-right: 20px;
+	}
+	.buttons {
+		margin: 0;
+	}
+	
+}
+
