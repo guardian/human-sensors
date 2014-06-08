@@ -10,6 +10,8 @@ object Api extends Controller {
 
   var answers = List[Answer]()
 
+  val corsHeaders = ("Access-Control-Allow-Origin", "*")
+
   def topics(session: String) = Action {
     val next = for {
       topic <- Data.topics
@@ -18,7 +20,8 @@ object Api extends Controller {
 
     next.headOption match {
       case Some((topic: Topic, question: Question)) =>
-        Ok(Json.obj("topic" -> topic, "question" -> question, "replyUrl" -> s"/api/topics/${topic.id}/${question.id}"))
+        Ok(Json.obj("topic" -> topic, "question" -> question, "replyUrl" -> s"/api/topics/${topic.id}/${question.id}")).
+          withHeaders(corsHeaders)
       case _ =>
         NotFound
     }
@@ -27,7 +30,7 @@ object Api extends Controller {
   def recordAnswer(topicId: String, questionId: String) = Action(parse.json) { request =>
     val newAnswer = request.body.as[Answer]
     answers ::= newAnswer
-    Ok("")
+    Ok("").withHeaders(corsHeaders)
   }
 
 }
