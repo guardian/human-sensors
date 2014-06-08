@@ -1,8 +1,24 @@
 /** @jsx React.DOM */
 (function () {
+    var orList = function (items) {
+        if (items.length == 1) {
+            return items[0];
+        } else {
+            var last = items.pop();
+
+            return items.join(", ") + " or " + last;
+        }
+    }
+
     var TargetingSummary = React.createClass({
        render: function () {
-           var message = "Going to all users";
+           var message;
+
+           if (this.props.constraints.topics.length > 0) {
+               message = "Going to users who have read articles about " + orList(this.props.constraints.topics);
+           } else {
+               message = "Going to all users";
+           }
 
            return (
                 <p id="targeting-summary">{message}</p>
@@ -175,7 +191,7 @@
                     constraintElement = <ReadingHistory />;
                     break;
                 case 3:
-                    constraintElement = <PreviousParticipation onAddTopic={this.onAddTopic} />;
+                    constraintElement = <PreviousParticipation onAddTopic={this.onAddTopic.bind(this)} />;
                     break;
                 default:
                     constraintElement = <p></p>;
