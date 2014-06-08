@@ -72,4 +72,10 @@ object Application extends Controller {
   def countAnswers(topicId: String, questionId: String): Int = {
     Api.answers.filter(answer => answer.topic == topicId && answer.question == questionId).size
   }
+
+  def answerPercentage(topicId: String, questionId: String): Double = {
+    val total = Api.answers.filter(answer => answer.topic == topicId).size
+    if (total == 0) 0
+    else (countAnswers(topicId, questionId).toDouble / total)
+  }
 }

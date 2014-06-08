@@ -31,7 +31,8 @@ object JsonImplicits {
     override def reads(json: JsValue): JsResult[Question] =
       // FIXME: broken JSON polymorphism
       //freeFormFormat.reads(json).mapTo[Question] orElse
-        multipleChoiceFormat.reads(json).mapTo[Question]
+      multipleChoiceFormat.reads(json).mapTo[Question] orElse
+        freeFormFormat.reads(json).mapTo[Question]
 
     override def writes(o: Question): JsValue = o match {
       case freeForm: FreeForm => freeFormFormat.writes(freeForm)

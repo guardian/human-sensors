@@ -1,4 +1,6 @@
 @(topic: Topic)
+@import controllers.Application.countAnswers
+@import controllers.Application.answerPercentage
 
 @main(title = s"${topic.name} - Human sensors") {
 
@@ -11,10 +13,10 @@
     <!-- TODO: chart (which kind?) -->
     @topic.questions.map{
         case MultipleChoice(id, question, answers) => {
-            <li>@question (multiple choice)
+            <li>@question
                 <ul>
                     @answers.map { answer =>
-                        <li>@answer: countAnswers(topic.id, question.id) ({{percentage}}%)</li>
+                        <li>@answer: @countAnswers(topic.id, question) (@answerPercentage(topic.id, question)%)</li>
                     }
                 </ul>
             </li>
