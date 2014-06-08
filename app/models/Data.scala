@@ -1,7 +1,7 @@
 package models
 
 import JsonImplicits._
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json}
 import java.io.{File, PrintWriter}
 import grizzled.slf4j.Logging
 import scala.io.Source
@@ -11,25 +11,37 @@ object Data extends Logging {
   @volatile var answers = List[Answer]()
   @volatile var locations = Map[String, Location]()
 
-  private val FileName = "data.json"
+  private val topicFileName = "persistence/topics.json"
+  private val answersFileName = "persistence/answers.json"
+  private val locationsFileName = "persistence/locations.json"
 
   def loadFromFile() {
     try {
-      val newTopics = Json.parse(Source.fromFile(FileName).mkString).as[List[Topic]]
+      topics = Json.parse(Source.fromFile(topicFileName).mkString).as[List[Topic]]
+      logger.info(s"Loaded ${topics.size} topics from $topicFileName")
 
-      logger.info(s"Loaded ${topics.length} topics from $FileName")
+      answers = Json.parse(Source.fromFile(answersFileName).mkString).as[List[Answer]]
+      logger.info(s"Loaded ${answers.size} topics from $answersFileName")
 
-      topics = newTopics
+      locations = Json.parse(Source.fromFile(locationsFileName).mkString).as[Map[String, Location]]
+      logger.info(s"Loaded ${locations.size} topics from $locationsFileName")
+
     } catch {
       case error: Throwable =>
-        logger.error(s"Could not load topics from $FileName", error)
+        logger.error(s"Could not load data", error)
     }
   }
 
   def persist() {
-    val jsonString = Json.stringify(Json.toJson(topics))
+    persist1(Json.toJson(topics),    topicFileName)
+    persist1(Json.toJson(answers),   answersFileName)
+    persist1(Json.toJson(locations), locationsFileName)
+  }
 
-    val file = new File(FileName)
+  def persist1(data: JsValue, fileName: String) {
+    val jsonString = Json.stringify(data)
+
+    val file = new File(fileName)
     val out = new PrintWriter(file, "UTF-8")
 
     try {

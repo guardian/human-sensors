@@ -27,7 +27,7 @@ object Api extends Controller {
         )).
           withHeaders(corsHeaders:_*)
       case _ =>
-        NotFound
+        NotFound.withHeaders(corsHeaders:_*)
     }
   }
 
