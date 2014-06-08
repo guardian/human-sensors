@@ -17,3 +17,4 @@ POST        /api/topics/:topicId/:questionId        controllers.Api.recordAnswer
 OPTIONS     /api/topics/:topicId/:questionId        controllers.Api.corsOk(topicId, questionId)
 
 GET         /helpers/tags                           controllers.NewTopicHelpers.lookUpTag(query: String)
+GET         /helpers/topics                         controllers.NewTopicHelpers.lookUpTopic(query: String)

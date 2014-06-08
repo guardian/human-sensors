@@ -57,12 +57,11 @@
     var tagsBloodHound = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: "/helpers/tags?query=%QUERY"/*,
+        remote: "/helpers/tags?query=%QUERY",
         templates: {
-            suggestion: function (tag) {
-                return "<p>" + tag.name + " <span class='tag-id'>" + tag.id + "</span></p>";
-            }
-        }*/
+            empty: "<p>No tags match</p>",
+            suggestion: Handlebars.compile("<p>{{name}} <span>{{id}}</span></p>")
+        }
     });
 
     tagsBloodHound.initialize();
@@ -73,9 +72,14 @@
                 hint: false,
                 highlight: true
             }, {
+                name: "tag-id",
                 displayKey: "name",
                 source: tagsBloodHound.ttAdapter()
             });
+        },
+
+        componentWillUnmount: function () {
+            $(this.refs.readingHistoryInput.getDOMNode()).typeahead("destroy");
         },
 
         render: function () {
