@@ -57,14 +57,22 @@
     var tagsBloodHound = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        remote: "/helpers/tags?query=%QUERY"
+        remote: "/helpers/tags?query=%QUERY"/*,
+        templates: {
+            suggestion: function (tag) {
+                return "<p>" + tag.name + " <span class='tag-id'>" + tag.id + "</span></p>";
+            }
+        }*/
     });
 
     tagsBloodHound.initialize();
 
     var ReadingHistory = React.createClass({
         componentDidMount: function () {
-            $(this.refs.readingHistoryInput.getDOMNode()).typeahead(null, {
+            $(this.refs.readingHistoryInput.getDOMNode()).typeahead({
+                hint: false,
+                highlight: true
+            }, {
                 displayKey: "name",
                 source: tagsBloodHound.ttAdapter()
             });
@@ -72,9 +80,7 @@
 
         render: function () {
             return (
-                <p>Users who have read content tagged
-                    <input type="text" ref="readingHistoryInput" />
-                </p>
+                <input type="text" ref="readingHistoryInput" placeholder="Enter topic" />
             );
         }
     });
@@ -137,10 +143,10 @@
                                     <option value="2">Reading history</option>
                                     <option value="3">Previous participation</option>
                                 </select>
-
-                                {constraintElement}
                             </dd>
                         </dl>
+
+                        <div>{constraintElement}</div>
                     </form>
                 </div>
             );
