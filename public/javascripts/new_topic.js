@@ -12,17 +12,37 @@
 
     var TargetingSummary = React.createClass({
        render: function () {
-           var message;
+           var constraints = [];
 
            if (this.props.constraints.topics.length > 0) {
-               message = "Going to users who have read articles about " + orList(this.props.constraints.topics);
-           } else {
-               message = "Going to all users";
+               var msg = "Have responded to " + orList(this.props.constraints.topics.map(function (obj) {
+                   return obj.name;
+               }));
+
+               constraints.push(<li>{msg}</li>);
            }
 
-           return (
-                <p id="targeting-summary">{message}</p>
-           );
+           if (this.props.constraints.tags.length > 0) {
+               var msg = "Have read articles about " + orList(this.props.constraints.tags.map(function (obj) {
+                   return obj.name;
+               }));
+
+               constraints.push(<li>{msg}</li>);
+           }
+
+           if (constraints.length == 0) {
+               return (
+                    <div id="targeting-summary">Going to all users</div>
+               );
+           } else {
+               return (
+                   <div id="targeting-summary">
+                       <p>Going to users who</p>
+
+                       <ul>{constraints}</ul>
+                   </div>
+               );
+           }
        }
     });
 
@@ -80,7 +100,9 @@
 
     var ReadingHistory = React.createClass({
         componentDidMount: function () {
-            $(this.refs.readingHistoryInput.getDOMNode()).typeahead({
+            var domNode = $(this.refs.readingHistoryInput.getDOMNode());
+
+            domNode.typeahead({
                 hint: false,
                 highlight: true
             }, {
@@ -91,6 +113,16 @@
                     suggestion: Handlebars.compile("<p>{{name}} <span class='tag-id'>{{id}}</span></p>")
                 }
             });
+
+            var that = this;
+
+            var handleSelect = function (event, topic) {
+                that.props.onAddTag(topic);
+                domNode.val("");
+            };
+
+            $(domNode).on("typeahead:autocompleted", handleSelect);
+            $(domNode).on("typeahead:selected", handleSelect);
         },
 
         componentWillUnmount: function () {
@@ -127,8 +159,10 @@
                 source: topicsBloodHound.ttAdapter()
             });
 
+            var that = this;
+
             var handleSelect = function (event, topic) {
-                //this.props.onAddTopic(topic);
+                that.props.onAddTopic(topic);
                 domNode.val("");
             };
 
@@ -173,8 +207,18 @@
         onAddTopic: function (topic) {
             this.updateState({
                 constraints: {
-                    $push: {
-                        topics: [topic]
+                    topics: {
+                        $push: [topic]
+                    }
+                }
+            });
+        },
+
+        onAddTag: function (tag) {
+            this.updateState({
+                constraints: {
+                    tags: {
+                        $push: [tag]
                     }
                 }
             });
@@ -188,10 +232,10 @@
                     constraintElement = <Location />;
                     break;
                 case 2:
-                    constraintElement = <ReadingHistory />;
+                    constraintElement = <ReadingHistory onAddTag={this.onAddTag} />;
                     break;
                 case 3:
-                    constraintElement = <PreviousParticipation onAddTopic={this.onAddTopic.bind(this)} />;
+                    constraintElement = <PreviousParticipation onAddTopic={this.onAddTopic} />;
                     break;
                 default:
                     constraintElement = <p></p>;
