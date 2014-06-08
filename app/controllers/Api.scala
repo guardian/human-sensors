@@ -41,7 +41,7 @@ object Api extends Controller {
     val newAnswer = request.body.as[Answer]
     answers ::= newAnswer
 
-    val topicAnswers = answers.filter(_.topic == topicId)
+    val topicAnswers = answers.filter(_.topic == topicId).filter(_.question == questionId)
     val results = topicAnswers.
       groupBy(_.value).
       mapValues((_.size.toDouble / topicAnswers.size * 100)).

@@ -257,6 +257,9 @@ var app = (function(app, ractive, pymChild ){
         var noServer = window.parent.location.search === '?static';
         var replyUrl, topicId, questionId;
 
+        var el = document.getElementById('content');
+        el.style.display = 'none';
+
 	app.init = function(){
 
 		ractive = new Ractive({
@@ -345,6 +348,10 @@ var app = (function(app, ractive, pymChild ){
 	};
 
         function showQuestion(resp) {
+            // Reveal if we have a question
+            el.style.display = 'table';
+	    pymChild.sendHeightToParent();
+
             console.log(resp)
             ractive.set('hed', resp.topic.name);
             ractive.set('dek', resp.question.question);
