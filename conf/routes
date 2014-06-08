@@ -12,7 +12,8 @@ GET         /assets/*file                           controllers.Assets.at(path="
 
 
 GET         /api/topics                             controllers.Api.topics(session)
+GET         /api/topics/:topicId/:questionId        controllers.Api.listAnswers(topicId, questionId)
 POST        /api/topics/:topicId/:questionId        controllers.Api.recordAnswer(topicId, questionId)
-
+OPTIONS     /api/topics/:topicId/:questionId        controllers.Api.corsOk(topicId, questionId)
 
 GET         /helpers/tags                           controllers.NewTopicHelpers.lookUpTag(query: String)
