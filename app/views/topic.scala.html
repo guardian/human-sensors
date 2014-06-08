@@ -17,11 +17,11 @@
 <ul>
     <!-- TODO: chart (which kind?) -->
     @topic.questions.map{
-        case MultipleChoice(id, question, answers) => {
+        case MultipleChoice(questionId, question, answers) => {
             <li>@question
                 <ul>
                     @answers.map { answer =>
-                        <li>@answer: @countAnswers(topic.id, question) (@answerPercentage(topic.id, question)%)</li>
+                        <li>@answer: @countAnswers(topic.id, questionId, answer) (@answerPercentage(topic.id, questionId, answer)%)</li>
                     }
                 </ul>
             </li>

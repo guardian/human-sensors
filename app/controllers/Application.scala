@@ -74,13 +74,15 @@ object Application extends Controller {
     }
   }
 
-  def countAnswers(topicId: String, questionId: String): Int = {
-    answers.filter(_.topic == topicId).filter(_.question == questionId).size
+  def countAnswers(topicId: String, questionId: String, answer: String): Int = {
+    answers.filter(_.topic == topicId).filter(_.question == questionId).filter(_.value == answer).size
   }
 
-  def answerPercentage(topicId: String, questionId: String): Double = {
-    val total = answers.filter(_.topic == topicId).size
-    if (total == 0) 0
-    else countAnswers(topicId, questionId).toDouble / total
+  def answerPercentage(topicId: String, questionId: String, answer: String): Int = {
+    val total = answers.filter(_.topic == topicId).filter(_.question == questionId).size
+    val percentage = if (total == 0) 0.0
+    else countAnswers(topicId, questionId, answer).toDouble / total
+
+    math.round(percentage * 100.0).toInt
   }
 }
