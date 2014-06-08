@@ -253,6 +253,10 @@ var pymChild = new pym.Child();
 
 var app = (function(app, ractive, pymChild ){
 		
+        var apiBaseUri = 'http://' + window.location.hostname + ':9000';
+        var noServer = window.parent.location.search === '?static';
+        var replyUrl, topicId, questionId;
+
 	app.init = function(){
 
 		ractive = new Ractive({
@@ -269,9 +273,28 @@ var app = (function(app, ractive, pymChild ){
 		
 		ractive.on({
 			submit: function(e,i){
-				var response = ractive.get('choices[' + i +']')
-				console.log(response)
-				app.showData();
+			    var response = ractive.get('choices[' + i +']');
+			    console.log(response);
+                            if (noServer) {
+			      app.showData({
+                                  results: [
+                                      {answer: 'yes', percent: 20},
+                                      {answer: 'no',  percent: 80}
+                                  ]
+                              });
+                            } else {
+                                $.ajax({
+                                    url: replyUrl,
+                                    method: 'post',
+                                    data: JSON.stringify({
+                                        topic: topicId,
+                                        question: questionId,
+                                        value: response,
+                                        session: app.getId()
+                                    }),
+                                    contentType: 'application/json'
+                                }).done(app.showData);
+                            }
 			}
 		});
 		
@@ -279,7 +302,7 @@ var app = (function(app, ractive, pymChild ){
 		pymChild.sendHeightToParent();
 	};
 	
-	app.showData = function(){
+	app.showData = function(resp) {
 		ractive.set('showPrompt', false);
 		ractive.set('showResults', true);
 		ractive.set('dek', 'Guardian readers thought');
@@ -298,7 +321,6 @@ var app = (function(app, ractive, pymChild ){
 		pymChild.sendHeightToParent();
 	};
 	
-        var noServer = window.parent.location.search === '?static';
 	app.getQuestion = function(){
 
 		var id = app.getId();
@@ -314,22 +336,27 @@ var app = (function(app, ractive, pymChild ){
                                 'yes',
                                 'no'
                             ]
-                        }
+                        },
+                        replyUrl: '/api/topics/test/q'
                     });
                 } else {
                     $.ajax({
-                        url: 'http://localhost:9000/api/topics',
+                        url: apiBaseUri + '/api/topics',
                         data: {session: id}
                     }).done(showQuestion);
                 }
 	};
 
         function showQuestion(resp) {
+            console.log(resp)
             ractive.set('hed', resp.topic.name);
             ractive.set('dek', resp.question.question);
             ractive.set('choices', resp.question.choices);
 			ractive.set('showPrompt', true);
             ractive.set('showResults', false);
+            topicId = resp.topic.id;
+            questionId = resp.question.id;
+            replyUrl = apiBaseUri + resp.replyUrl;
         }
 
 	app.getId = function(){
