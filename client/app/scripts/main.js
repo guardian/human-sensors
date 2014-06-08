@@ -259,10 +259,8 @@ var app = (function(app, ractive, pymChild ){
 			el: 'content',
 			template: '#template',
 			data: {
-				results: {
-					'yes': 30,
-					'no': 70
-				},
+				choices: [],
+				results: [],
 				showPrompt: false,
 				showResults: false,
 				readMore: ''
@@ -270,12 +268,10 @@ var app = (function(app, ractive, pymChild ){
 		});
 		
 		ractive.on({
-			submit: function(e,type){
-				if(type==='yes'){
-					app.showData();
-				} else {
-					
-				}
+			submit: function(e,i){
+				var response = ractive.get('choices[' + i +']')
+				console.log(response)
+				app.showData();
 			}
 		});
 		
@@ -286,10 +282,19 @@ var app = (function(app, ractive, pymChild ){
 	app.showData = function(){
 		ractive.set('showPrompt', false);
 		ractive.set('showResults', true);
-		ractive.set('results.yes', 20);
-		ractive.set('results.yes', 80);
 		ractive.set('dek', 'Guardian readers thought');
 		ractive.set('readMore', 'Read more on this story');
+		
+		var results = [
+			{ choice: 'Yes', total: 2},
+			{ choice: 'No', total: 1}
+		];
+		var total = results.reduce(function(a, b) {
+					    return a.total + b.total;
+					});
+		ractive.set('results', results);
+		ractive.set('totalResults', total);
+		
 		pymChild.sendHeightToParent();
 	};
 	
@@ -297,7 +302,7 @@ var app = (function(app, ractive, pymChild ){
 	app.getQuestion = function(){
 
 		var id = app.getId();
-		console.log(id)
+		//console.log(id)
                 if (noServer) {
                     showQuestion({
                         topic: {
@@ -322,7 +327,8 @@ var app = (function(app, ractive, pymChild ){
         function showQuestion(resp) {
             ractive.set('hed', resp.topic.name);
             ractive.set('dek', resp.question.question);
-            ractive.set('showPrompt', true);
+            ractive.set('choices', resp.question.choices);
+			ractive.set('showPrompt', true);
             ractive.set('showResults', false);
         }
 

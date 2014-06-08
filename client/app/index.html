@@ -29,25 +29,32 @@
 					{{#dek}}
 				  	 <p>{{dek}}</p>
 					{{/dek}}
+					
 				   {{#showResults}}
 				   <div class='bar-chart'>
 					   <div class='bar-container'>
-						   <div class='bar-y' style='width: {{results.yes}}%;'></div>
+						   {{#results}}
+						   <div class='bar' style='width: {{ Math.round(total / totalResults * 100) }}%;'></div>
+					       {{/results}}
+						   
 					   </div>
 					   
 					   <div class='bar-results'>
-						   <div class='bar-r-y'>{{results.yes}}% Yes</div>
-						   <div class='bar-r-n'>{{results.no}}% No</div>
+						   {{#results:i}}
+						   <div class='bar-r'><div class='key key-{{i}}'></div>{{ Math.round(total / totalResults * 100) }}% {{choice}}</div>
+					       {{/results}}
 					   </div>
 					   
 				   </div>
 				   {{/showResults}}
+				   
 			   </div>
 			   <div class='c-cell c-content c-more'>
 				   {{#showPrompt}}
 					   <div class='buttons'>
-						   <div class='button' id='yes-btn' on-click='submit:yes'>Yes</div>
-						   <div class='button' id='no-btn' on-click='submit:no'>No</div>
+						   {{#choices:i}}
+						  	 <div class='button' on-click='submit:{{i}}'>{{this}}</div>
+						   {{/choices}}
 					   </div>
 	  			   {{/showPrompt}}
 			   	   {{#showResults}}
