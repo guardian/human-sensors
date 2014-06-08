@@ -71,6 +71,7 @@
                 case MultipleChoice(id, question, answers) => {
                 <li class="form-inline">Has answered
                     <select class="form-control">
+                        <option>Anything</option>
                         @answers.map { answer =>
                             <option>@answer</option>
                         }
