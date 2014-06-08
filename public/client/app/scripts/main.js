@@ -311,7 +311,7 @@ var app = (function(app, ractive, pymChild ){
 		ractive.set('showResults', true);
 		ractive.set('dek', 'Reader responses');
 		ractive.set('readMoreHeader', 'Tell us more')
-		ractive.set('readMore', 'We\'re working on a story about recovering heroin addicts.');
+		ractive.set('readMore', 'We\'re working on a story about this topic.');
 		
 		
 		ractive.set('results', resp.results);
