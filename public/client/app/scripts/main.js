@@ -350,7 +350,7 @@ var app = (function(app, ractive, pymChild ){
         function showQuestion(resp) {
             // Reveal if we have a question
             el.style.display = 'table';
-	    pymChild.sendHeightToParent();
+	    
 
             console.log(resp)
             ractive.set('hed', resp.topic.name);
@@ -377,6 +377,7 @@ var app = (function(app, ractive, pymChild ){
                     });
                 });
             }
+			pymChild.sendHeightToParent();
         }
 
 	app.getId = function(){
