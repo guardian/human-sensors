@@ -253,7 +253,7 @@ var pymChild = new pym.Child();
 
 var app = (function(app, ractive, pymChild ){
 		
-        var apiBaseUri = 'http://' + window.location.hostname + ':9000';
+        var apiBaseUri = 'http://' + window.location.host;
         var noServer = window.parent.location.search === '?static';
         var replyUrl, topicId, questionId;
 
