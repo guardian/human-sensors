@@ -12,6 +12,10 @@
     <form action="/editor/topics" method="post">
         <input type="text" name="name" class="form-control" />
 
+        <div id="constraints">
+
+        </div>
+
         <div class="control-group">
             <input type="checkbox" id="trackGeo" name="trackGeo" value="true" />
             <label for="trackGeo">Request position</label>
@@ -19,4 +23,14 @@
 
         <input type="submit" value="Add" class="btn btn-default" />
     </form>
+
+    <script src="@routes.Assets.at("javascripts/typeahead.bundle.js")"></script>
+    <script src="@routes.Assets.at("javascripts/handlebars-v1.3.0.js")"></script>
+
+    <link href="@routes.Assets.at("stylesheets/new_topic.css")" rel="stylesheet" />
+
+    <script src="http://fb.me/react-with-addons-0.10.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.10.0.js"></script>
+
+    <script type="text/jsx" src="@routes.Assets.at("javascripts/new_topic.js")"></script>
 }

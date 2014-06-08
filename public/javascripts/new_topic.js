@@ -64,7 +64,7 @@
 
                     of
 
-                    <input name="geo" type="text" onChange={this.handleTextInput} value={this.state.query} />
+                    <input className="form-control" name="geo" type="text" onChange={this.handleTextInput} value={this.state.query} />
                 </p>
             );
         }
@@ -100,7 +100,7 @@
         render: function () {
             return (
                 <p>Users who have read items tagged
-                  <input type="text" name="tag" ref="readingHistoryInput" placeholder="Enter tag" />
+                  <input className="form-control" type="text" name="tag" ref="readingHistoryInput" placeholder="Enter tag" />
                 </p>
             );
         }
@@ -140,7 +140,7 @@
             return (
                 <p>
                     Users who have responded to
-                    <input name="topic" type="text" className="midline" ref="participationHistoryInput" placeholder="Enter topic" />
+                    <input className="form-control" name="topic" type="text" ref="participationHistoryInput" placeholder="Enter topic" />
                 </p>
             );
         }
@@ -201,7 +201,7 @@
                 <div>
                     <TargetingSummary constraints={this.state.constraints} />
 
-                        <p>Constrain by <select name="constraint_type" value={this.state.selectedConstraint} onChange={this.handleChange}>
+                        <p>Constrain by <select className="form-control" name="constraint_type" value={this.state.selectedConstraint} onChange={this.handleChange}>
                                     <option value=""></option>
                                     <option value="1">Location</option>
                                     <option value="2">Reading history</option>
