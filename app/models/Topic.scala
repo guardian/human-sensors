@@ -9,12 +9,13 @@ case class ReadingHistory(topicIds: Set[String]) extends TargetingCriterion
 case class TopicParticipation(topics: Set[String]) extends TargetingCriterion
 
 object Topic {
-  def withName(name: String): Topic =
+  def withNameAndGeo(name: String, trackGeo: Boolean): Topic =
     Topic(
       java.util.UUID.randomUUID().toString,
       name,
       Set.empty,
-      Nil
+      Nil,
+      trackGeo
     )
 }
 
@@ -22,7 +23,8 @@ case class Topic(
   id: String,
   name: String,
   targetingCriteria: Set[TargetingCriterion],
-  questions: List[Question]
+  questions: List[Question],
+  trackGeo: Boolean
 )
 
 sealed trait Question {

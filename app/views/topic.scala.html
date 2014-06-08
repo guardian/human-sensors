@@ -1,10 +1,16 @@
-@(topic: Topic)
+@(topic: Topic, locations: Map[String, Location])
 @import controllers.Application.countAnswers
 @import controllers.Application.answerPercentage
 
 @main(title = s"${topic.name} - Human sensors") {
 
 <h1>@topic.name</h1>
+
+@if(topic.trackGeo) {
+    @locations.map { case (session, loc) =>
+        <p>@loc</p>
+    }
+}
 
 <h2>Questions</h2>
 
